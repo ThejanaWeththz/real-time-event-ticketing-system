@@ -21,14 +21,24 @@ public class BackendApplication {
 	public HashMap<String, Object> getConfiguration() {
 		HashMap<String, Object> response = new HashMap<String, Object>();
 		response.put("status", Configuration.getInstance().getIsRunning());
+		response.put("total_tickets", Configuration.getInstance().getTotalTickets());
 		return response;
 	}
 
 	@PostMapping("/configuration")
-	public HashMap<String, Object> setConfiguration(@RequestBody HashMap<String, Object> status) {
-		if (status.containsKey("status"))
-			Configuration.getInstance().setIsRunning((boolean) status.get("status"));
-		return status;
+	public HashMap<String, Object> setConfiguration(@RequestBody HashMap<String, Object> body) {
+		if (body.containsKey("status"))
+			Configuration.getInstance().setIsRunning((boolean) body.get("status"));
+
+		if (body.containsKey("total_tickets"))
+			Configuration.getInstance().setTotalTickets((int) body.get("total_tickets"));
+
+		if (body.containsKey("ticket_release_rate"))
+			Configuration.getInstance().setTicketReleaseRate((int) body.get("ticket_release_rate"));
+
+		if (body.containsKey("max_tickets"))
+			Configuration.getInstance().setMaxTicketCapacity((int) body.get("max_tickets"));
+		return body;
 	}
 
 	@GetMapping("/tickets")

@@ -31,7 +31,7 @@ public class TicketPool {
 
     public synchronized void addTicket(Ticket ticket) {
         try {
-            if (tickets.size() >= size) {
+            while (tickets.size() >= size) {
                 System.out.printf("Pool size full. Ticket %d in queue.%n", ticket.getTicketId());
                 wait();
             }
@@ -46,9 +46,9 @@ public class TicketPool {
         }
     }
 
-    public synchronized void removeTicket(Ticket ticket) {
+    public synchronized void removeTicket() {
         try {
-            if (tickets.isEmpty()) {
+            while (tickets.isEmpty()) {
                 System.out.println("Tickets unavailable. On queue to be removed.");
                 wait();
             }
