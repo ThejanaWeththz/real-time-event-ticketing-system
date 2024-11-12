@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
-public class OopdemoApplication {
+public class BackendApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OopdemoApplication.class, args);
+		SpringApplication.run(BackendApplication.class, args);
 	}
 
 	@GetMapping("/configuration")
