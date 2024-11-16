@@ -17,15 +17,17 @@ public class Vendor implements Runnable {
     public void run() {
 
         while (true) {
-            if (Configuration.getInstance().getIsRunning() == false) {
+            while (Configuration.getInstance().getIsRunning() == false) {
                 continue;
             }
-            if (TicketPool.getInstance().getTicketCount() >= Configuration.getInstance().getTotalTickets()) {
-                System.out.println("Total amount of ticket capacity reached");
-                break;
+            while (TicketPool.getInstance().getTicketCount() >= Configuration.getInstance().getTotalTickets()) {
+                continue;
             }
             for (int i = 0; i < ticketsPerRelease; i++) {
                 TicketPool.getInstance().addTicket(new Ticket());
+                if (TicketPool.getInstance().getTicketCount() >= Configuration.getInstance().getTotalTickets()) {
+                    System.out.println("Total amount of ticket capacity reached");
+                }
             }
             System.out.printf("Vendor %d released %d tickets.%n", this.vendorId,
                     this.ticketsPerRelease);
