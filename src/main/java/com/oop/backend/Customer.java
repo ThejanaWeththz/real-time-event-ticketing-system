@@ -4,11 +4,11 @@ import java.util.Random;
 
 public class Customer implements Runnable {
     private int customerId;
-    private int retrievalInterval;
+    private int customerRetrievalRate;
 
-    public Customer(int retrievalInterval) {
+    public Customer(int customerRetrievalRate) {
         this.customerId = new Random().nextInt(1000000);
-        this.retrievalInterval = retrievalInterval;
+        this.customerRetrievalRate = customerRetrievalRate;
     }
 
     @Override
@@ -17,7 +17,7 @@ public class Customer implements Runnable {
             TicketPool.getInstance().removeTicket();
             System.out.printf("Customer %d purchased ticket.%n", this.customerId);
             try {
-                Thread.sleep(retrievalInterval);
+                Thread.sleep(customerRetrievalRate);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -28,11 +28,11 @@ public class Customer implements Runnable {
         return this.customerId;
     }
 
-    public double retrievalInterval() {
-        return this.retrievalInterval;
+    public double getCustomerRetrievalRate() {
+        return this.customerRetrievalRate;
     }
 
-    public void setRetrievalInterval(int retrievalInterval) {
-        this.retrievalInterval = retrievalInterval;
+    public void setcustomerRetrievalRate(int customerRetrievalRate) {
+        this.customerRetrievalRate = customerRetrievalRate;
     }
 }
