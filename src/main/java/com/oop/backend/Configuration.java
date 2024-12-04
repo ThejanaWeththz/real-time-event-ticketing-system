@@ -1,5 +1,12 @@
 package com.oop.backend;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import com.google.gson.Gson;
+
 public class Configuration {
 
     private static Configuration instance;
@@ -7,10 +14,10 @@ public class Configuration {
     private boolean isRunning = false;
 
     private int totalTickets = 10;
-    private int ticketReleaseRate = 2;
-    private int customerRetrievalRate = 2;
+    private int ticketReleaseRate = 4000;
+    private int customerRetrievalRate = 4000;
     private int maxTicketCapacity = 5;
-    private int releaseInterval = 4000;
+    private static Gson file = new Gson();
 
     private Configuration() {
     }
@@ -20,6 +27,26 @@ public class Configuration {
             instance = new Configuration();
         }
         return instance;
+    }
+
+    public void saveConfig() {
+        try {
+            FileWriter writer = new FileWriter("config.json");
+            file.toJson(instance, writer);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("JSON error");
+        }
+    }
+
+    public void loadConfig() {
+        try {
+            FileReader reader = new FileReader("config.json");
+            instance = file.fromJson(reader, Configuration.class);
+        } catch (FileNotFoundException e) {
+            System.out.println("config.json not found.");
+        }
     }
 
     public boolean getIsRunning() {
@@ -60,13 +87,5 @@ public class Configuration {
 
     public void setMaxTicketCapacity(int maxTicketCapacity) {
         this.maxTicketCapacity = maxTicketCapacity;
-    }
-
-    public int getReleaseInterval() {
-        return this.releaseInterval;
-    }
-
-    public void setReleaseInterval(int releaseInterval) {
-        this.releaseInterval = releaseInterval;
     }
 }
