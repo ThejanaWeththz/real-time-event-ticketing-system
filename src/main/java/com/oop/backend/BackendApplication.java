@@ -21,6 +21,7 @@ public class BackendApplication {
 
 	@GetMapping("/configuration")
 	public HashMap<String, Object> getConfiguration() {
+		Configuration.getInstance().loadConfig();
 		HashMap<String, Object> response = new HashMap<String, Object>();
 		response.put("status", Configuration.getInstance().getIsRunning());
 		response.put("total_tickets", Configuration.getInstance().getTotalTickets());
@@ -40,6 +41,8 @@ public class BackendApplication {
 
 		if (body.containsKey("max_tickets"))
 			Configuration.getInstance().setMaxTicketCapacity((int) body.get("max_tickets"));
+
+		Configuration.getInstance().saveConfig();
 		return body;
 	}
 
@@ -53,22 +56,22 @@ public class BackendApplication {
 	public Vendor createVendor(@RequestBody HashMap<String, Object> body) {
 		int ticketsPerRelease = body.containsKey("tickets_per_release") ? (int) body.get("tickets_per_release")
 				: Configuration.getInstance().getTicketReleaseRate();
-		int releaseInterval = body.containsKey("release_interval") ? (int) body.get("release_interval")
-				: Configuration.getInstance().getReleaseInterval();
+		int releaseRate = body.containsKey("release_rate") ? (int) body.get("release_rate")
+				: Configuration.getInstance().getTicketReleaseRate();
 
-		Vendor vendor = new Vendor(ticketsPerRelease, releaseInterval);
-		new Thread(vendor, String.valueOf(vendor.getVendorId())).start();
+		Vendor vendor = new Vendor(ticketsPerRelease, releaseRate);
+		new Thread(vendor, String.valueOf("Vendor " + vendor.getVendorId())).start();
 		return vendor;
 	}
 
 	@PostMapping("/customers")
 	public Customer createCustomer(@RequestBody HashMap<String, Object> body) {
-		int retrievalInterval = body.containsKey("retrieval_internal") ? (int) body.get("retrieval_interval")
+		int retrievalRate = body.containsKey("retrieval_rate") ? (int) body.get("retrieval_rate")
 				: Configuration.getInstance().getCustomerRetrievalRate();
 
-		Customer customer = new Customer(retrievalInterval);
+		Customer customer = new Customer(retrievalRate);
 
-		new Thread(customer, String.valueOf(customer.getCustomerId())).start();
+		new Thread(customer, String.valueOf("Customer " + customer.getCustomerId())).start();
 		return customer;
 	}
 }
