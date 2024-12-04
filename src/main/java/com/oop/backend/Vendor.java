@@ -5,22 +5,24 @@ import java.util.Random;
 public class Vendor implements Runnable {
     private int vendorId;
     private int ticketsPerRelease;
-    private int releaseInterval;
+    private int ticketReleaseRate;
 
-    public Vendor(int ticketsPerRelease, int releaseInterval) {
+    public Vendor(int ticketsPerRelease, int ticketReleaseRate) {
         this.vendorId = new Random().nextInt(1000000);
         this.ticketsPerRelease = ticketsPerRelease;
-        this.releaseInterval = releaseInterval;
+        this.ticketReleaseRate = ticketReleaseRate;
     }
 
     @Override
     public void run() {
 
         while (true) {
-            while (Configuration.getInstance().getIsRunning() == false) {
+            if (Configuration.getInstance().getIsRunning() == false) {
+
                 continue;
             }
-            while (TicketPool.getInstance().getTicketCount() >= Configuration.getInstance().getTotalTickets()) {
+            if (TicketPool.getInstance().getTicketCount() >= Configuration.getInstance().getTotalTickets()) {
+
                 continue;
             }
             for (int i = 0; i < ticketsPerRelease; i++) {
@@ -32,7 +34,7 @@ public class Vendor implements Runnable {
             System.out.printf("Vendor %d released %d tickets.%n", this.vendorId,
                     this.ticketsPerRelease);
             try {
-                Thread.sleep(releaseInterval);
+                Thread.sleep(ticketReleaseRate);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -52,11 +54,11 @@ public class Vendor implements Runnable {
         this.ticketsPerRelease = ticketsPerRelease;
     }
 
-    public double getReleaseInterval() {
-        return this.releaseInterval;
+    public double getTicketReleaseRate() {
+        return this.ticketReleaseRate;
     }
 
-    public void setReleaseInterval(int releaseInterval) {
-        this.releaseInterval = releaseInterval;
+    public void setTicketReleaseRate(int ticketReleaseRate) {
+        this.ticketReleaseRate = ticketReleaseRate;
     }
 }
