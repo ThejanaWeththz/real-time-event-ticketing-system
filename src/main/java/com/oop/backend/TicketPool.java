@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
+import com.oop.config.Configuration;
+
 public class TicketPool {
     private ReentrantLock lock = new ReentrantLock();
     private Condition notEmpty = lock.newCondition();
@@ -17,7 +19,7 @@ public class TicketPool {
     private int size = Configuration.getInstance().getMaxTicketCapacity();
     private int ticketCount;
 
-    public TicketPool() {
+    private TicketPool() {
     }
 
     public static TicketPool getInstance() {
@@ -61,7 +63,6 @@ public class TicketPool {
                 System.out.println("Tickets unavailable. On queue to be removed.");
                 notFull.await();
             }
-            Thread.sleep(3000);
             System.out.printf("Ticket %d removed.%n", tickets.get(0).getTicketId());
             tickets.remove(0);
             notEmpty.signalAll();
