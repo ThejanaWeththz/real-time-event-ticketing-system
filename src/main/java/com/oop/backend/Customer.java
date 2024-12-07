@@ -2,6 +2,8 @@ package com.oop.backend;
 
 import java.util.Random;
 
+import com.oop.config.Configuration;
+
 public class Customer implements Runnable {
     private int customerId;
     private int customerRetrievalRate;
@@ -13,7 +15,10 @@ public class Customer implements Runnable {
 
     @Override
     public void run() {
-        while (Configuration.getInstance().getIsRunning()) {
+        while (true) {
+            if (!Configuration.getInstance().getIsRunning()) {
+                continue;
+            }
             TicketPool.getInstance().removeTicket();
             System.out.printf("Customer %d purchased ticket.%n", this.customerId);
             try {

@@ -2,6 +2,8 @@ package com.oop.backend;
 
 import java.util.Random;
 
+import com.oop.config.Configuration;
+
 public class Vendor implements Runnable {
     private int vendorId;
     private int ticketsPerRelease;
@@ -17,12 +19,10 @@ public class Vendor implements Runnable {
     public void run() {
 
         while (true) {
-            if (Configuration.getInstance().getIsRunning() == false) {
-
+            if (!Configuration.getInstance().getIsRunning()) {
                 continue;
             }
             if (TicketPool.getInstance().getTicketCount() >= Configuration.getInstance().getTotalTickets()) {
-
                 continue;
             }
             for (int i = 0; i < ticketsPerRelease; i++) {

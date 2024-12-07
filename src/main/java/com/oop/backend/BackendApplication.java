@@ -10,13 +10,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.oop.config.Configuration;
+import com.oop.cli.Console;
+
 @SpringBootApplication
 @CrossOrigin
 @RestController
 public class BackendApplication {
 
 	public static void main(String[] args) {
+		Console.main(args);
 		SpringApplication.run(BackendApplication.class, args);
+		Configuration.getInstance().loadConfig();
 	}
 
 	@GetMapping("/configuration")
@@ -25,6 +30,9 @@ public class BackendApplication {
 		HashMap<String, Object> response = new HashMap<String, Object>();
 		response.put("status", Configuration.getInstance().getIsRunning());
 		response.put("total_tickets", Configuration.getInstance().getTotalTickets());
+		response.put("release_rate", Configuration.getInstance().getTicketReleaseRate());
+		response.put("retrieval_rate", Configuration.getInstance().getCustomerRetrievalRate());
+		response.put("max_tickets", Configuration.getInstance().getMaxTicketCapacity());
 		return response;
 	}
 
