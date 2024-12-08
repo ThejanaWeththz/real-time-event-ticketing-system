@@ -3,49 +3,55 @@ package com.oop.cli;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import com.google.gson.Gson;
 
 public class Console {
     private static boolean isRunning = true;
 
-    private static int totalTickets;
-    private static int ticketReleaseRate;
-    private static int customerRetrievalRate;
-    private static int maxTicketCapacity;
     private static Gson file = new Gson();
+    private static int response;
+    private static Scanner input = new Scanner(System.in);
 
     private static HashMap<String, Object> config = new HashMap<>();
 
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
         config.put("isRunning", isRunning);
         System.out.println("Welcome to the Event Ticket Managing System");
         System.out.println("Setup configuration\n");
 
-        System.out.print("Total ticket capacity for the ticket pool: ");
-        totalTickets = input.nextInt();
-        config.put("totalTickets", totalTickets);
+        prompt("Total ticket capacity for the ticket pool: ");
+        config.put("totalTickets", response);
 
-        System.out.print("Ticket releasing rate for vendors(set in milliseconds(ex : 1000)): ");
-        ticketReleaseRate = input.nextInt();
-        config.put("ticketReleaseRate", ticketReleaseRate);
+        prompt("Ticket releasing rate for vendors(set in seconds): ");
+        config.put("ticketReleaseRate", response);
 
-        System.out.print("Ticket retrieving rate for customers(set in milliseconds(ex : 1000)): ");
-        customerRetrievalRate = input.nextInt();
-        config.put("customerRetrievalRate", customerRetrievalRate);
+        prompt("Ticket retrieving rate for customers(set in seconds): ");
+        config.put("customerRetrievalRate", response);
 
-        System.out.print("Maximum ticket capacity for the ticket pool at a time: ");
-        maxTicketCapacity = input.nextInt();
-        config.put("maxTicketCapacity", maxTicketCapacity);
-
-        System.out.println("Total Tickets: " + totalTickets);
-        System.out.println("Ticket Release Rate: " + ticketReleaseRate);
-        System.out.println("Customer Retrieval Rate: " + customerRetrievalRate);
-        System.out.println("Max Ticket Capacity: " + maxTicketCapacity);
+        prompt("Maximum ticket capacity for the ticket pool at a time: ");
+        config.put("maxTicketCapacity", response);
 
         input.close();
         saveConfig();
+    }
+
+    private static void prompt(String message) {
+        while (true) {
+            try {
+                System.out.print(message);
+                response = input.nextInt();
+                if (response < 0) {
+                    System.out.println("Please enter a valid amount greater than one.");
+                    continue;
+                }
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid amount.");
+                input.next();
+            }
+        }
     }
 
     public static void saveConfig() {
