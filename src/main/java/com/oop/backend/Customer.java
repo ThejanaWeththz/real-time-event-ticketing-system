@@ -15,17 +15,18 @@ public class Customer implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
-            if (!Configuration.getInstance().getIsRunning()) {
-                continue;
+        try {
+            while (true) {
+                if (!Configuration.getInstance().getIsRunning()) {
+                    continue;
+                }
+                TicketPool.getInstance().removeTicket();
+                System.out.printf("Customer %d purchased ticket.%n", this.customerId);
+                Thread.sleep(customerRetrievalRate * 1000);
             }
-            TicketPool.getInstance().removeTicket();
-            System.out.printf("Customer %d purchased ticket.%n", this.customerId);
-            try {
-                Thread.sleep(customerRetrievalRate);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+        } catch (InterruptedException e) {
+            System.out.println("Customer " + customerId + " stopped.");
+            Thread.currentThread().interrupt();
         }
     }
 

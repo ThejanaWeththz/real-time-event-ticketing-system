@@ -17,28 +17,27 @@ public class Vendor implements Runnable {
 
     @Override
     public void run() {
-
-        while (true) {
-            if (!Configuration.getInstance().getIsRunning()) {
-                continue;
-            }
-            if (TicketPool.getInstance().getTicketCount() >= Configuration.getInstance().getTotalTickets()) {
-                continue;
-            }
-            for (int i = 0; i < ticketsPerRelease; i++) {
-                TicketPool.getInstance().addTicket(new Ticket());
-                if (TicketPool.getInstance().getTicketCount() >= Configuration.getInstance().getTotalTickets()) {
-                    System.out.println("Total amount of ticket capacity reached");
+        try {
+            while (true) {
+                if (!Configuration.getInstance().getIsRunning()) {
+                    continue;
                 }
+                if (TicketPool.getInstance().getTicketCount() >= Configuration.getInstance().getTotalTickets()) {
+                    continue;
+                }
+                for (int i = 0; i < ticketsPerRelease; i++) {
+                    TicketPool.getInstance().addTicket(new Ticket());
+                    if (TicketPool.getInstance().getTicketCount() >= Configuration.getInstance().getTotalTickets()) {
+                        System.out.println("Total amount of ticket capacity reached");
+                    }
+                }
+                System.out.printf("Vendor %d released %d tickets.%n", this.vendorId,
+                        this.ticketsPerRelease);
+                Thread.sleep(ticketReleaseRate * 1000);
             }
-            System.out.printf("Vendor %d released %d tickets.%n", this.vendorId,
-                    this.ticketsPerRelease);
-            try {
-                Thread.sleep(ticketReleaseRate);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-
+        } catch (InterruptedException e) {
+            System.out.println("Vendor " + vendorId + " stopped.");
+            Thread.currentThread().interrupt();
         }
     }
 
