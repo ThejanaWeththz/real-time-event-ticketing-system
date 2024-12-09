@@ -2,9 +2,13 @@ package com.oop.backend;
 
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.oop.config.Configuration;
 
 public class Customer implements Runnable {
+    Logger log = LoggerFactory.getLogger(Customer.class);
     private int customerId;
     private int customerRetrievalRate;
 
@@ -21,11 +25,11 @@ public class Customer implements Runnable {
                     continue;
                 }
                 TicketPool.getInstance().removeTicket();
-                System.out.printf("Customer %d purchased ticket.%n", this.customerId);
+                log.info("Customer {} purchased ticket.", this.customerId);
                 Thread.sleep(customerRetrievalRate * 1000);
             }
         } catch (InterruptedException e) {
-            System.out.println("Customer " + customerId + " stopped.");
+            log.warn("Customer {} stopped.", this.customerId);
             Thread.currentThread().interrupt();
         }
     }

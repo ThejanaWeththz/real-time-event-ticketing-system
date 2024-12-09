@@ -6,9 +6,13 @@ import java.util.List;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.oop.config.Configuration;
 
 public class TicketPool {
+    Logger log = LoggerFactory.getLogger(TicketPool.class);
     private ReentrantLock lock = new ReentrantLock();
     private Condition notEmpty = lock.newCondition();
     private Condition notFull = lock.newCondition();
@@ -41,13 +45,13 @@ public class TicketPool {
         lock.lock();
         try {
             while (tickets.size() >= size) {
-                System.out.printf("Pool size full. Ticket %d in queue.%n", ticket.getTicketId());
+                log.warn("Pool size full. Ticket {} in queue.", ticket.getTicketId());
                 notEmpty.await();
             }
             ticketCount++;
             tickets.add(ticket);
             System.out.println(ticketCount);
-            System.out.printf("Ticket %d added.%n", ticket.getTicketId());
+            log.info("Ticket {} added. TicketPool size is {}", ticket.getTicketId(), tickets.size());
             notFull.signalAll();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -60,10 +64,10 @@ public class TicketPool {
         lock.lock();
         try {
             while (tickets.isEmpty()) {
-                System.out.println("Tickets unavailable. On queue to be removed.");
+                log.warn("Tickets unavailable. On queue to be removed.");
                 notFull.await();
             }
-            System.out.printf("Ticket %d removed.%n", tickets.get(0).getTicketId());
+            log.info("Ticket {} removed.", tickets.get(0).getTicketId());
             tickets.remove(0);
             notEmpty.signalAll();
         } catch (InterruptedException e) {

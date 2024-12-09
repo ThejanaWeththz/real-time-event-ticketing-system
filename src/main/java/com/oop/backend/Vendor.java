@@ -2,9 +2,13 @@ package com.oop.backend;
 
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.oop.config.Configuration;
 
 public class Vendor implements Runnable {
+    Logger log = LoggerFactory.getLogger(Vendor.class);
     private int vendorId;
     private int ticketsPerRelease;
     private int ticketReleaseRate;
@@ -28,15 +32,14 @@ public class Vendor implements Runnable {
                 for (int i = 0; i < ticketsPerRelease; i++) {
                     TicketPool.getInstance().addTicket(new Ticket());
                     if (TicketPool.getInstance().getTicketCount() >= Configuration.getInstance().getTotalTickets()) {
-                        System.out.println("Total amount of ticket capacity reached");
+                        log.info("Total amount of ticket capacity reached.");
                     }
                 }
-                System.out.printf("Vendor %d released %d tickets.%n", this.vendorId,
-                        this.ticketsPerRelease);
+                log.info("Vendor {} released {} tickets.", this.vendorId, this.ticketsPerRelease);
                 Thread.sleep(ticketReleaseRate * 1000);
             }
         } catch (InterruptedException e) {
-            System.out.println("Vendor " + vendorId + " stopped.");
+            log.warn("Vendor {} stopped.", this.vendorId);
             Thread.currentThread().interrupt();
         }
     }
