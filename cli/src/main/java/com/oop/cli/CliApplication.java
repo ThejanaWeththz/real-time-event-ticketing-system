@@ -1,4 +1,4 @@
-package com.oop.cli.util;
+package com.oop.cli;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import com.oop.cli.models.*;
+import com.oop.cli.util.Client;
 
 public class CliApplication {
 

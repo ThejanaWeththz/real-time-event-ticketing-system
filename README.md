@@ -30,7 +30,7 @@ mvn  spring-boot:run
 
 This will start the SpringBoot server on `http://localhost:8080`.
 
-3. Run the cli:
+3. Run the frontend server:
 
 ```bash
 cd frontend
