@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { NgFor, NgIf } from '@angular/common';
+import { AppComponent } from '../app.component';
 
 interface Ticket {
   ticketId: number;
@@ -14,29 +14,28 @@ interface Ticket {
   templateUrl: './ticket-display.component.html',
 })
 export class TicketDisplayComponent implements OnInit {
-  private http: HttpClient;
-
   isTicketsLoading: boolean = false;
 
-  tickets: Ticket[] = [];
+  tickets: any[] = [];
 
-  constructor(http: HttpClient) {
-    this.http = http;
-  }
+  constructor(private host: AppComponent) { }
 
   ngOnInit(): void {
-    this.loadProducts();
-    setInterval(() => this.loadProducts(), 1000);
+    this.loadTickets();
+    setInterval(() => (this.loadTickets(), this.getTicketSize()), 1000);
   }
 
-  loadProducts(): void {
-    this.isTicketsLoading = true;
-    this.http
-      .get<Ticket[]>('http://localhost:8080/tickets')
-      .subscribe((tickets) => {
-        this.tickets = tickets;
-        this.isTicketsLoading = false;
-        console.log(tickets);
-      });
+  getTicketSize() {
+    return this.tickets.length;
+  }
+
+  async loadTickets() {
+    try {
+      const response = await this.host.client.get('/tickets');
+      console.log(response.data);
+      this.tickets = response.data;
+    } catch (error) {
+      this.tickets = [];
+    }
   }
 }

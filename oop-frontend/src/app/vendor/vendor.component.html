@@ -1,0 +1,128 @@
+<main class="min-h-dvh grid place-items-center [-webkit-user-select:none;]">
+  <div class="flex gap-4 shadow-lg p-4 rounded-lg">
+    <div class="flex space-y-4 flex-col">
+      <div class="flex flex-row gap-40">
+        <h2 class="text-xl">Vendor</h2>
+        <p class="place-content-end font-mono">{{ getVendorSize() }}</p>
+      </div>
+
+      <input
+        [(ngModel)]="ticketsPerRelease"
+        type="number"
+        min="1"
+        class="h-9 text-[14px] text-black w-[240px] bg-[#ffffff] px-3 py-1 rounded-lg border border-black focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-[#ffffff] transition-all duration-150 ease-in-out [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+        name="ticketsPerRelease"
+        placeholder="Tickets Per Release (in seconds)"
+      />
+      <div
+        *ngIf="ticketsPerRelease !== undefined && ticketsPerRelease < 0"
+        class="text-red-500 text-xs"
+      >
+        Input cannot be negative!
+      </div>
+      <button
+        type="submit"
+        class="bg-zinc-200 text-black w-[7.5rem] px-3 rounded-lg h-9 text-sm font-medium hover:bg-black hover:text-white hover:drop-shadow-lg transition-all ease-in-out"
+        (click)="addVendor(ticketsPerRelease)"
+      >
+        Add
+      </button>
+    </div>
+    <div
+      class="flex w-64 h-96 overflow-scroll overflow-x-hidden [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-zinc-300 [&::-webkit-scrollbar-track]:rounded-xl [&::-webkit-scrollbar-thumb]:bg-zinc-400 [&::-webkit-scrollbar-thumb]:rounded-xl hover:[&::-webkit-scrollbar-thumb]:bg-black"
+    >
+      <div
+        *ngIf="isVendorsLoading"
+        class="flex w-full items-center justify-center"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="size-6 animate-spin"
+        >
+          <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+        </svg>
+      </div>
+      <div
+        *ngIf="!isVendorsLoading && !vendors.length"
+        class="flex flex-col items-center justify-center w-full gap-2"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-store"
+        >
+          <path
+            d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"
+          />
+          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+          <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4" />
+          <path d="M2 7h20" />
+          <path
+            d="M22 7v3a2 2 0 0 1-2 2a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7"
+          />
+        </svg>
+        <p class="text-zinc-400 text-sm text-center">No Vendors!</p>
+      </div>
+      <div *ngIf="!isVendorsLoading" class="flex flex-col space-y-4">
+        <div
+          *ngFor="let vendor of vendors"
+          class="w-full bg-zinc-200 rounded-lg flex gap-4 p-4"
+        >
+          <div
+            class="size-12 place-content-center place-items-center bg-zinc-300 rounded-lg"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-store"
+            >
+              <path
+                d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"
+              />
+              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+              <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4" />
+              <path d="M2 7h20" />
+              <path
+                d="M22 7v3a2 2 0 0 1-2 2a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7"
+              />
+            </svg>
+          </div>
+          <div class="flex place-items-center flex-col gap-0.5">
+            <p class="text-sm bg-emerald-400/60 p-0.5 rounded-sm font-medium">
+              #{{ vendor.vendorId }}
+            </p>
+            <button
+              [ngClass]="{'!text-xs border-emerald-200 bg-emerald-100 text-emerald-700':vendor.runStatus,
+              'text-xs border-red-200/50 bg-red-100 text-red-700':!vendor.runStatus,
+              }"
+              class="rounded-sm border px-2 py-0.5"
+              (click)="vendorStatus(vendor.vendorId)"
+            >
+              {{ vendor.runStatus ? "Active" : "Inactive" }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

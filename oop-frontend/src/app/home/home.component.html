@@ -1,0 +1,132 @@
+<main
+  class="min-h-dvh bg-zinc-100 grid place-items-center [-webkit-user-select:none;]"
+>
+  <div class="flex space-y-8 flex-col">
+    <h1 class="font-bold text-2xl">Real Time Ticket Management System</h1>
+    <div class="flex h-6 items-center justify-end gap-2.5">
+      <div
+        [ngClass]="config?.status ? 'bg-emerald-600' : 'bg-red-600'"
+        class="relative flex size-3 items-center justify-center rounded-full bg-emerald-500"
+      >
+        <span
+          [ngClass]="config?.status ? 'bg-emerald-400' : 'bg-red-400'"
+          class="absolute size-3 animate-ping rounded-full bg-emerald-400 [animation-duration:_1.5s]"
+        ></span>
+      </div>
+      <p class="!text-sm">
+        System is {{ config?.status ? "" : "not" }} running
+      </p>
+    </div>
+    <div class="flex flex-row gap-6">
+      <a
+        class="flex items-center justify-center h-20 w-52 rounded-lg bg-zinc-300/65 hover:bg-zinc-400/85 transition-all ease-in-out cursor-pointer"
+        routerLink="/configuration"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="m-1"
+        >
+          <path
+            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+          />
+          <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+          <path d="M8 12h8" />
+          <path d="M10 11v2" />
+          <path d="M8 17h8" />
+          <path d="M14 16v2" />
+        </svg>
+        <h1 class="font-mono">Set Configuration</h1>
+      </a>
+      <div
+        class="flex items-center justify-center h-20 w-52 rounded-lg bg-zinc-300/65 hover:bg-zinc-400/85 transition-all ease-in-out cursor-pointer"
+        routerLink="/tickets"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="m-1"
+        >
+          <path d="m4.5 8 10.58-5.06a1 1 0 0 1 1.342.488L18.5 8" />
+          <path d="M6 10V8" />
+          <path d="M6 14v1" />
+          <path d="M6 19v2" />
+          <rect x="2" y="8" width="20" height="13" rx="2" />
+        </svg>
+        <h1 class="font-mono">Tickets</h1>
+      </div>
+    </div>
+    <div class="flex flex-row gap-6">
+      <div
+        class="flex items-center justify-center h-20 w-52 rounded-lg bg-zinc-300/65 hover:bg-zinc-400/85 transition-all ease-in-out cursor-pointer"
+        routerLink="/control"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="m-1"
+        >
+          <path d="M12 17v4" />
+          <path d="m15.2 4.9-.9-.4" />
+          <path d="m15.2 7.1-.9.4" />
+          <path d="m16.9 3.2-.4-.9" />
+          <path d="m16.9 8.8-.4.9" />
+          <path d="m19.5 2.3-.4.9" />
+          <path d="m19.5 9.7-.4-.9" />
+          <path d="m21.7 4.5-.9.4" />
+          <path d="m21.7 7.5-.9-.4" />
+          <path d="M22 13v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7" />
+          <path d="M8 21h8" />
+          <circle cx="18" cy="6" r="3" />
+        </svg>
+        <h1 class="font-mono">Control Panel</h1>
+      </div>
+      <div
+        class="flex items-center justify-center h-20 w-52 rounded-lg bg-zinc-300/65 hover:bg-zinc-400/85 transition-all ease-in-out cursor-pointer"
+        routerLink="/logs"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="m-1"
+        >
+          <path d="M15 12h-5" />
+          <path d="M15 8h-5" />
+          <path d="M19 17V5a2 2 0 0 0-2-2H4" />
+          <path
+            d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"
+          />
+        </svg>
+        <h1 class="font-mono">Logs</h1>
+      </div>
+    </div>
+  </div>
+</main>

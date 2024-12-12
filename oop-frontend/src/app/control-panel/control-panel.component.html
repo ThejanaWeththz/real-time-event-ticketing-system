@@ -1,0 +1,29 @@
+<main class="min-h-dvh grid place-items-center [-webkit-user-select:none;]">
+  <div
+    class="flex space-y-8 bg-zinc-100 rounded-lg p-4 shadow-lg flex-col items-center"
+  >
+    <h1 class="text-2xl font-semibold">Control Panel</h1>
+    <button
+      class="col-span-2 bg-zinc-200 text-black w-[7.5rem] px-3 rounded-lg p-2 text-sm font-medium hover:bg-black hover:text-white hover:drop-shadow-lg transition-all ease-in-out"
+      (click)="setStatus()"
+    >
+      System Start/Stop
+    </button>
+    <div class="flex flex-row gap-4">
+      <div class="flex flex-row">
+        <a
+          class="flex items-center justify-center h-20 w-32 rounded-lg bg-zinc-300/65 hover:bg-zinc-400/85 transition-all ease-in-out cursor-pointer"
+          routerLink="/vendors"
+          ><h1 class="font-mono">Vendors</h1></a
+        >
+      </div>
+      <div class="flex flex-row">
+        <a
+          class="flex items-center justify-center h-20 w-32 rounded-lg bg-zinc-300/65 hover:bg-zinc-400/85 transition-all ease-in-out cursor-pointer"
+          routerLink="/customers"
+          ><h1 class="font-mono">Customers</h1></a
+        >
+      </div>
+    </div>
+  </div>
+</main>

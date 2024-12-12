@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { AppComponent } from '../app.component';
 
 interface Configuration {
   total_tickets?: number;
@@ -17,10 +17,9 @@ interface Configuration {
   templateUrl: './configuration-form.component.html',
 })
 export class ConfigurationFormComponent implements OnInit {
-  private http: HttpClient;
   title = 'oop-frontend';
 
-  config: Configuration | undefined = undefined;
+  config: any | undefined = undefined;
 
   totalTickets: number | undefined = undefined;
   ticketReleaseRate: number | undefined = undefined;
@@ -28,39 +27,35 @@ export class ConfigurationFormComponent implements OnInit {
   maxTicketCapacity: number | undefined = undefined;
   tickets: any;
 
-  constructor(http: HttpClient) {
-    this.http = http;
-  }
+  constructor(private host: AppComponent) { }
 
   async ngOnInit(): Promise<void> {
     setInterval(() => 1000);
   }
 
-  getConfig(): void {
-    this.http
-      .get<Configuration>('http://localhost:8080/configuration')
-      .subscribe((config) => {
-        this.config = config;
-        console.log(config);
-      });
+  async getConfig(): Promise<void> {
+    try {
+      const response = await this.host.client.get('/configuration');
+      console.log(response.data);
+      this.config = response.data;
+    } catch (error) {
+      this.config = 0;
+    }
   }
 
-  savesConfig(
+  async saveConfig(
     total_tickets?: number,
     release_rate?: number,
     retrieval_rate?: number,
     max_tickets?: number
-  ): void {
+  ): Promise<void> {
     console.log(total_tickets, release_rate, retrieval_rate, max_tickets);
-    this.http
-      .post('http://localhost:8080/configuration', {
-        max_tickets,
+    this.host.client.post('/configuration',
+      {
+        total_tickets,
         release_rate,
         retrieval_rate,
-        total_tickets,
+        max_tickets,
       })
-      .subscribe((config) => {
-        this.getConfig();
-      });
   }
 }

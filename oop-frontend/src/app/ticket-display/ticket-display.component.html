@@ -1,8 +1,10 @@
 <main class="grid min-h-dvh place-items-center [-webkit-user-select:none;]">
   <div class="gap-4">
-    <h1 class="text-2xl m-4 font-semibold">Available Tickets</h1>
+    <h1 class="text-2xl m-4 font-semibold">
+      Available Tickets : {{ getTicketSize() }}
+    </h1>
     <div
-      class="flex w-64 h-96 overflow-scroll overflow-x-hidden [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-zinc-300 [&::-webkit-scrollbar-thumb]:bg-zinc-400 [&::-webkit-scrollbar-thumb]:rounded-xl hover:[&::-webkit-scrollbar-thumb]:bg-black"
+      class="flex w-64 h-96 overflow-scroll overflow-x-hidden [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-zinc-300 [&::-webkit-scrollbar-track]:rounded-xl [&::-webkit-scrollbar-thumb]:bg-zinc-400 [&::-webkit-scrollbar-thumb]:rounded-xl hover:[&::-webkit-scrollbar-thumb]:bg-black"
     >
       <div
         *ngIf="isTicketsLoading"
@@ -49,7 +51,7 @@
       <div *ngIf="!isTicketsLoading" class="flex flex-col space-y-4">
         <div
           *ngFor="let ticket of tickets; let i = index"
-          class="w-full bg-zinc-100 rounded-lg flex gap-4 p-4"
+          class="w-60 bg-zinc-200 rounded-lg flex gap-4 p-4"
         >
           <div
             class="size-12 place-content-center place-items-center bg-zinc-300 rounded-lg"
@@ -60,7 +62,7 @@
               height="28"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#71717a"
+              stroke="currentColor"
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -75,8 +77,9 @@
             </svg>
           </div>
           <div class="flex flex-col gap-0.5">
-            <h1 class="text-sm font-medium">ID: {{ ticket.ticketId }}</h1>
-            <p class="text-sm font-medium">${{ ticket.ticket }}</p>
+            <h1 class="text-sm bg-emerald-400/60 p-0.5 rounded-sm font-medium">
+              #{{ ticket.ticketId }}
+            </h1>
           </div>
         </div>
       </div>
