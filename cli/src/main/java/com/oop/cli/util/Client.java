@@ -70,37 +70,4 @@ public class Client {
         }
         return null;
     }
-
-    public <T> T patch(final String endpoint, final Object body, final Class<T> clazz) {
-        try {
-            final HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(baseUrl + endpoint))
-                    .header("Content-Type", "application/json")
-                    .method("PATCH", HttpRequest.BodyPublishers.ofString(gson.toJson(body)))
-                    .build();
-
-            final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            return gson.fromJson(response.body(), clazz);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public <T> T delete(final String endpoint, final Class<T> clazz) {
-        try {
-            final HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(baseUrl + endpoint))
-                    .DELETE()
-                    .build();
-
-            final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            return gson.fromJson(response.body(), clazz);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }
