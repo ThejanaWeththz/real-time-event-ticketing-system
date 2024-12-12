@@ -1,5 +1,6 @@
 package com.oop.config;
 
+// importing libraries
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -9,9 +10,10 @@ import com.google.gson.Gson;
 
 public class Configuration {
 
+    // Singleton pattern
     private static Configuration instance;
 
-    private boolean isRunning = false;
+    private boolean appStatus = false; // System Status
 
     private int totalTickets = 10;
     private int ticketReleaseRate = 4000;
@@ -19,9 +21,11 @@ public class Configuration {
     private int maxTicketCapacity = 5;
     private static Gson file = new Gson();
 
+    // Private constructor for singleton
     private Configuration() {
     }
 
+    // getInstance method for singleton
     public static Configuration getInstance() {
         if (instance == null) {
             instance = new Configuration();
@@ -49,12 +53,12 @@ public class Configuration {
         }
     }
 
-    public boolean getIsRunning() {
-        return this.isRunning;
+    public boolean getAppStatus() {
+        return this.appStatus;
     }
 
-    public void setIsRunning(boolean isRunning) {
-        this.isRunning = isRunning;
+    public void setAppStatus(boolean appStatus) {
+        this.appStatus = appStatus;
     }
 
     public int getTotalTickets() {
