@@ -20,20 +20,20 @@ git  clone  https://github.com/ThejanaWeththz/real-time-event-ticketing-system.g
 cd  real-time-event-ticketing-system
 ```
 
-2. Run the backend server:
+2. Run the backend(Springboot) server:
 
 ```bash
-cd backend
+cd oop-backend
 mvn clean install
 mvn  spring-boot:run
 ```
 
 This will start the SpringBoot server on `http://localhost:8080`.
 
-3. Run the frontend server:
+3. Run the frontend(Angular) server:
 
 ```bash
-cd frontend
+cd oop-frontend
 bun install
 bun run start
 ```
